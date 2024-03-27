@@ -1,6 +1,6 @@
 <h1 class="code-line" data-line-start=0 data-line-end=1 ><a id="Welcome_to_my_DevOps_training_project_0"></a>Welcome to my DevOps training project</h1>
 <p class="has-line-data" data-line-start="1" data-line-end="3">I’m passionate about DevOps tools and practice.<br>
-I create this project for learn how tu use Terraform, by the way I will implement kubernetes cluster and other tool that I judge mendatored like kubernertes, docker, ansible, etc…</p>
+I am creating this project to learn how to use Terraform, besides I will implement the kubernetes cluster and other tools that I consider important like docker, Gitlab CI/CD, etc…</p>
 <h2 class="code-line" data-line-start=4 data-line-end=5 ><a id="Tools_4"></a>Tools</h2>
 <pre><code>Build
     - VirtualBox
