@@ -13,6 +13,8 @@ Container and his management
     - Kubernetes
 Monitoring
     - Graphana
+CI/CD
+    - Gitlab CI/CD
 </code></pre>
 <h2 class="code-line" data-line-start=18 data-line-end=19 ><a id="Terraform_18"></a>Terraform</h2>
 <p class="has-line-data" data-line-start="19" data-line-end="23">Documentation <a href="https://developer.hashicorp.com/terraform/cli">https://developer.hashicorp.com/terraform/cli</a><br>
