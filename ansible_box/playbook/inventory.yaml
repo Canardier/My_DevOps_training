@@ -1,0 +1,9 @@
+---
+all:
+  hosts:
+    master:
+      ansible_host: 192.168.10.10
+      ansible_user: vagrant
+    worker:
+      ansible_host: 192.168.10.11
+      ansible_user: vagrant

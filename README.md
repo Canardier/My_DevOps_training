@@ -20,4 +20,7 @@ CI/CD
 <p class="has-line-data" data-line-start="19" data-line-end="23">Documentation <a href="https://developer.hashicorp.com/terraform/cli">https://developer.hashicorp.com/terraform/cli</a><br>
 <code>terraform init</code><br>
 <code>terraform plan -out binary_file</code><br>
+<code>terraform plan -out (Get-Date -Format "HHmmMMddyyyy") #sur windows pour avoir un id heure,minute,jour,mois,année</code><br>
 <code>terraform apply &quot;binary_file&quot;</code></p>
+
+Create and copy ssh key by ansible
