@@ -23,4 +23,4 @@ CI/CD
 <code>terraform plan -out (Get-Date -Format "HHmmMMddyyyy") #sur windows pour avoir un id heure,minute,jour,mois,année</code><br>
 <code>terraform apply &quot;binary_file&quot;</code></p>
 
-Create and copy ssh key by ansible
+Create and copy ssh key in ansible_box
