@@ -1,0 +1,14 @@
+---
+- hosts: workers
+  become: yes
+  tasks:
+    - name: try create directory
+      ansible.builtin.file:
+        path: /home/vagrant/directory
+        state: directory
+
+    - name: create with home path
+      command: "{{ item }}"
+      with_items:
+        - "echo $HOME"
+        - "mkdir -p {{ homedir.files }}/homepath"

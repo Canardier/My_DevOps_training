@@ -36,11 +36,8 @@
         update_cache: yes
       
     - name: Disable swap
-      command: swapoff -a
+      command: sudo swapoff -a
 
-- hosts: master
-  become: yes
-  tasks:
     - name: Install Docker
       apt:
         name: docker.io
@@ -55,46 +52,7 @@
         - kubelet
         - kubectl
 
-    - name: Initialize Kubernetes master
-      command: kubeadm init --apiserver-advertise-address=192.168.10.10 --apiserver-cert-extra-sans=192.168.10.10 --pod-network-cidr=192.168.10.0/24 --ignore-preflight-errors wap
-      register: kubeadm_output
-      ignore_errors: yes
-
-    # - name: Set up kubectl for the current user (ToDo manually)
-    #   command: "{{ item }}"
-    #   with_items:
-    #     - "mkdir -p $HOME/.kube"
-    #     - "sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config"
-    #     - "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
-
-    # - name: Install Calico network plugin (ToDo manually)
-    #   command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
-    #   when: "'calico' in kubeadm_output.stdout"
-
-    # - name: Create join command (ToDo manually)
-    #   command: "{{ item }}"
-    #   with_items:
-    #     - touch $HOME/.join.sh
-    #     - kubeadm token create --print-join-command > $HOME/.join.sh
-    #     - chmod +x $HOME/.join.sh
-
-- hosts: workers
-  become: yes
-  tasks:
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: present
-
-    - name: Install kubeadm, kubelet, and kubectl
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - kubeadm
-        - kubelet
-        - kubectl
-
-    # - name: Join worker nodes to the cluster
-    #   command: "{{ hostvars['master']['kubeadm_output']['stdout_lines'][0] }}"
-    #   when: "'kubeadm join' in hostvars['master']['kubeadm_output']['stdout']"
+    # ssh-keygen -t rsa
+    # ssh-copy-id vagrant@192.168.10.10
+    # ssh-copy-id vagrant@192.168.10.11
+    # ansible-playbook -i inventory.yaml kube-dependencies.yaml
