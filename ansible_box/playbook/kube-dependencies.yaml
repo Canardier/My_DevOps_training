@@ -6,6 +6,16 @@
       apt:
         update_cache: yes
 
+    - name: sysctl params required by setup, params persist across reboots
+      shell:
+        cmd: |
+          cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+          net.ipv4.ip_forward = 1
+          EOF
+
+    - name: Apply sysctl params without reboot
+      shell: sudo sysctl --system
+
     - name: Install dependencies for Kubernetes
       apt:
         name:
@@ -13,6 +23,8 @@
           - ca-certificates
           - curl
           - gnupg
+          - containerd
+          - net-tools
         state: present
 
     - name: Create directory for apt keyrings
@@ -38,12 +50,7 @@
     - name: Disable swap
       command: sudo swapoff -a
 
-    - name: Install Docker
-      apt:
-        name: docker.io
-        state: present
-
-    - name: Install kubeadm, kubelet, and kubectl
+    - name: Install kubeadm, kubelet and kubectl
       apt:
         name: "{{ item }}"
         state: present
@@ -51,8 +58,19 @@
         - kubeadm
         - kubelet
         - kubectl
+    
+    - name: Init containerd
+      shell:
+        cmd: |
+          sudo mkdir -p /etc/containerd
+          sudo containerd config default > /etc/containerd/config.toml
+          sudo sed -i '/SystemdCgroup = false/c\SystemdCgroup = true' /etc/containerd/config.toml
+          sudo sed -i '/systemd_cgroup = false/c\systemd_cgroup = true' /etc/containerd/config.toml
+          sudo systemctl restart containerd
 
     # ssh-keygen -t rsa
     # ssh-copy-id vagrant@192.168.10.10
     # ssh-copy-id vagrant@192.168.10.11
     # ansible-playbook -i inventory.yaml kube-dependencies.yaml
+
+    # registry.k8s.io/pause:3.9

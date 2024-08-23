@@ -7,7 +7,7 @@
         update_cache: yes
 
     - name: Initialize Kubernetes master
-      command: kubeadm init --apiserver-advertise-address=192.168.10.10 --apiserver-cert-extra-sans=192.168.10.10 --ignore-preflight-errors=Swap
+      command: kubeadm init --apiserver-advertise-address=192.168.10.10
       register: kubeadm_output
       ignore_errors: yes
 

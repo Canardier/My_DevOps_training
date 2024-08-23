@@ -24,3 +24,7 @@ CI/CD
 <code>terraform apply &quot;binary_file&quot;</code></p>
 
 Go inside Ansible-box > create ssh key > copy in master/worker > Enjoy ansible 
+
+## Kubernetes Doc
+https://kubernetes.io/docs/reference/kubectl/quick-reference/
+https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd

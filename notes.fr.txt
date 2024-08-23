@@ -1,0 +1,3 @@
+- Avec le kube-config.yaml tout semble s'installer sauf calico, le kube-proxy crash en boucle alors qu'en install manuel ça crash pas
+- calico ne s'installe pas avec ansible
+- Probleme pour rejoindre le Cluster, le calico pour la node worker-0 crash en boucle
