@@ -34,12 +34,12 @@
         mode: '0755'
 
     - name: Add Kubernetes apt key
-      shell: curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+      shell: curl -fsSL curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
       args:
         creates: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
     - name: Add Kubernetes apt repository
-      shell: echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
+      shell: echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
       args:
         creates: /etc/apt/sources.list.d/kubernetes.list
 
@@ -65,8 +65,19 @@
           sudo mkdir -p /etc/containerd
           sudo containerd config default > /etc/containerd/config.toml
           sudo sed -i '/SystemdCgroup = false/c\SystemdCgroup = true' /etc/containerd/config.toml
-          sudo sed -i '/systemd_cgroup = false/c\systemd_cgroup = true' /etc/containerd/config.toml
           sudo systemctl restart containerd
+
+    - name: Configurer l'IP fixe du kubelet
+      shell: echo "KUBELET_EXTRA_ARGS=--node-ip={{ ansible_host }}" | sudo tee /etc/default/kubelet
+
+    - name: Recharger la configuration systemd du kubelet
+      command: systemctl daemon-reexec
+
+    - name: Redémarrer kubelet
+      service:
+        name: kubelet
+        state: restarted
+
 
     # ssh-keygen -t rsa
     # ssh-copy-id vagrant@192.168.10.10
@@ -74,3 +85,5 @@
     # ansible-playbook -i inventory.yaml kube-dependencies.yaml
 
     # registry.k8s.io/pause:3.9
+    
+    # sudo sed -i '/systemd_cgroup = false/c\systemd_cgroup = true' /etc/containerd/config.toml

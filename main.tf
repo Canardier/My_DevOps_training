@@ -17,7 +17,7 @@ resource "vagrant_vm" "worker" {
     ip_address = "192.168.10.${count.index + 11}"
     vm_hostname = "worker-${count.index}"
   }
-  count = 1
+  count = 2
   depends_on = [vagrant_vm.master]
   get_ports = true
 }
@@ -39,4 +39,8 @@ resource "vagrant_vm" "ansible" {
   }
   get_ports = true
   depends_on = [vagrant_vm.worker]
+}
+
+output "worker_ips" {
+  value = [for i in range(var.worker_count) : "192.168.10.${i + 11}"]
 }

@@ -28,3 +28,22 @@ Go inside Ansible-box > create ssh key > copy in master/worker > Enjoy ansible
 ## Kubernetes Doc
 https://kubernetes.io/docs/reference/kubectl/quick-reference/
 https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd
+
+## Vagrant cmd
+<code>vagrant global-status</code>
+<code>vagrant ssh "machine id"</code>
+<code>vagrant global-status --prune</code>
+
+## Ansible cmd
+in start create ssh key and send it to master en worker with 
+<code>echo "y\n" | HOSTNAME=`hostname` ssh-keygen -t rsa -C "$HOSTNAME" -f "$HOME/.ssh/id_rsa" -P ""</code>
+<code>ssh-copy-id vagrant@192.168.10.10</code>
+<code>ssh-copy-id vagrant@192.168.10.11</code>
+<code>ansible-playbook -i inventory.yaml kube-dependencies.yaml</code>
+
+# Worker cmd
+create cluster with 
+<code>kubeadm init --apiserver-advertise-address=192.168.10.10 --node-name=master --pod-network-cidr=192.168.100.0/24</code>
+and install Calico as CNI
+
+It is crucial to separate the IPs of the machines from those of the cluster to avoid address conflicts, ensure reliable communication between nodes and pods, enable proper routing, and prevent NAT errors that could disrupt Kubernetes.
